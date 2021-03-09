@@ -9,7 +9,6 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ModelDelegate {
     
-    
     @IBOutlet weak var tableView: UITableView!
     
     var model = Model()
@@ -32,6 +31,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard tableView.indexPathForSelectedRow != nil else { return }
+        
+        let selectedVideo = videos[tableView.indexPathForSelectedRow!.row]
+        
+        let detailVC = segue.destination as! DetailViewController
+        detailVC.video = selectedVideo
+    }
+    
     // MARK:- TableView Methods
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,10 +47,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VIDEO_CELL_ID, for: indexPath)
-        let title = self.videos[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.VIDEO_CELL_ID, for: indexPath) as! VideoTableViewCell
+//        let title = self.videos[indexPath.row].title
+        let video = self.videos[indexPath.row]
 
-        cell.textLabel?.text = title
+//        cell.textLabel?.text = title
+        cell.setCell(video)
 
         return cell
     }
