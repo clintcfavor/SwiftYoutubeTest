@@ -36,11 +36,13 @@ class DetailViewController: UIViewController {
         
         titleLabel.text = video?.title
         
-        let dateFormat = DateFormatter()
+        let date = DateFormatHelper.formatDate(self.video!.published)
         
-        dateFormat.dateFormat = "EEEE, MMM d, yyyy"
+//        dateFormat.dateFormat = "EEEE, MMM d, yyyy"
+//
+//        dateLabel.text = dateFormat.string(from: self.video!.published)
+        dateLabel.text = date
         
-        dateLabel.text = dateFormat.string(from: self.video!.published)
         
         textView.text = video?.description
     }
